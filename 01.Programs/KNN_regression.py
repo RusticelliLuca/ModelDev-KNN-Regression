@@ -111,7 +111,7 @@ data_copy = data.copy().dropna(subset=drivers_list).reset_index()
 multiplic_factor = 1 
 
 #number of simulation of each risk threshold estimation
-n_of_simulations = 5
+n_of_simulations = 100
 
 
 ############  initialization of the estimation for every LOM ############ 
