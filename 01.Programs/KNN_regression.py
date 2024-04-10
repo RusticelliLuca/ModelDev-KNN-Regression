@@ -7,7 +7,7 @@ from sklearn.model_selection import GridSearchCV
 
 #paths
 file_in =  "portfolio.csv"
-path_in = "https://raw.githubusercontent.com/RusticelliLuca/ModelDev-KNN-Regression/master/Data/{}".format(file_in)
+path_in = "https://raw.githubusercontent.com/RusticelliLuca/ModelDev-KNN-Regression/main/Data/{}".format(file_in)
 
 #import portfolio
 
