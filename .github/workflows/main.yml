@@ -1,0 +1,59 @@
+name: run KKN_regression.py
+
+#if i wanna schedule the launch of the code -> 
+on:
+   workflow_dispatch:
+ # schedule:
+  #  - cron: '0 0 * * 1' # At 00:00 on Monday
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+
+      - name: checkout repo content
+        uses: actions/checkout@v4 # check final version on https://github.com/actions/checkout
+
+      - name: setup python
+        uses: actions/setup-python@v5 # check final version on https://github.com/actions/setup-python
+        with:
+          python-version: '3.9' # install the python version needed
+
+      #to not install all packages all the time: 
+      #the cache ID remains saved one week, then they are re-installed
+      
+      - uses: actions/cache@v4 #check version on https://github.com/actions/cache
+        id: cache
+        with:
+          path: ${{ env.pythonLocation }}
+          key: ${{ hashFiles('requirements.txt') }}-ID
+        
+      - name: install python packages
+        if: steps.cache.outputs.cache.hit != 'true'
+        run: 
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          
+      - name: execute py script # run pytho code
+        run: python 01.Programs/KNN_regression.py
+          
+      - name: Check if there are any changes in Repo
+        id: verify_diff
+        run: |
+          git diff --quiet . || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: Commit
+        if: steps.verify_diff.outputs.changed == 'true'
+        run: 
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .
+          git commit -m "Build" -a
+
+      - name: Push
+        if: steps.verify_diff.outputs.changed == 'true'
+        uses: ad-m/github-push-action@master #check correct name on https://github.com/ad-m/github-push-action
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main       
+          
