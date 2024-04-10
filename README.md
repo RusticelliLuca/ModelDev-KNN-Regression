@@ -18,3 +18,12 @@ To run this project locally, follow these steps:
   3. Modify the path_in variable in `main.py` script based on the local path where the csv dataset contained in the folder "Data" is saved. 
   4. Run the `main.py` script to execute the KNN regression algorithm and identify the threshold for the dataset.
 
+
+## Workflow
+
+The project was the opportunity to develop new skills on the creation of a configuration file in YAML which permits to run the code globally.
+In particular:
+  - it utilizes the github actions as checkout@v4.
+  - it saves running time thanks to cache@v4 action which permits to avoid to re-install the python packages if they are not changed and it is passed less than one week from their installation.
+  - it check if there are changes to commit or not.
+
